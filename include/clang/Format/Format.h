@@ -1094,6 +1094,16 @@ struct FormatStyle {
   /// The preprocessor directive indenting style to use.
   PPDirectiveIndentStyle IndentPPDirectives;
 
+  /// Indent preprocessor directives aligned to code indentation
+  ///
+  /// \code
+  ///    false:                      true:
+  ///    int main() {       vs       int main() {
+  ///    #define FOO 12                #define FOO 12  
+  ///      return FOO;                 return FOO;
+  ///    }                           }
+  bool AlignPPDirectivesToCode;
+
   /// The number of columns to use for indentation.
   /// \code
   ///    IndentWidth: 3
