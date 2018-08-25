@@ -49,6 +49,20 @@ struct FormatStyle {
   /// The extra indent or outdent of access modifiers, e.g. ``public:``.
   int AccessModifierOffset;
 
+  /// Indent access modifiers one level from the encompassing block.
+  ///
+  /// When ``false``, use the same indentation level as for the encompassing
+  /// block (adding AccessModifierOffset).
+  /// \code
+  ///    false:                       true:
+  ///    struct foo {         vs.     struct foo {
+  ///      int a;                       int a; 
+  ///      public:                        public:
+  ///      int b;                         int b; 
+  ///    }                            }        
+  /// \endcode
+  bool IndentAccessModifiers;
+
   /// Different styles for aligning after open brackets.
   enum BracketAlignmentStyle {
     /// Align parameters on the open bracket, e.g.:
