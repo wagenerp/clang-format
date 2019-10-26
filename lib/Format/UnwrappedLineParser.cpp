@@ -85,7 +85,6 @@ public:
     FakeEOF.Tok.startToken();
     FakeEOF.Tok.setKind(tok::eof);
     TokenSource = this;
-    Line.Level = 0;
     Line.InPPDirective = true;
   }
 
@@ -669,7 +668,8 @@ void UnwrappedLineParser::parseChildBlock() {
 void UnwrappedLineParser::parsePPDirective() {
   assert(FormatTok->Tok.is(tok::hash) && "'#' expected");
   ScopedMacroState MacroState(*Line, Tokens, FormatTok);
-
+  if (!Style.AlignPPDirectivesToCode)
+    Line->Level=0;
   nextToken();
 
   if (!FormatTok->Tok.getIdentifierInfo()) {
