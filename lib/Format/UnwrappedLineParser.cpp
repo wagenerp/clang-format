@@ -325,6 +325,7 @@ void UnwrappedLineParser::parseFile() {
 
 void UnwrappedLineParser::parseLevel(bool HasOpeningBrace) {
   bool SwitchLabelEncountered = false;
+  bool AccessSpecifierEncountered = false;
   do {
     tok::TokenKind kind = FormatTok->Tok.getKind();
     if (FormatTok->Type == TT_MacroBlockBegin) {
@@ -379,6 +380,14 @@ void UnwrappedLineParser::parseLevel(bool HasOpeningBrace) {
           (Style.IndentCaseLabels || (Line->InPPDirective && Line->Level == 1)))
         ++Line->Level;
       SwitchLabelEncountered = true;
+      parseStructuralElement();
+      break;
+    case tok::kw_public:
+    case tok::kw_protected:
+    case tok::kw_private:
+      if (!AccessSpecifierEncountered && Style.IndentAccessModifiers)
+        ++Line->Level;
+      AccessSpecifierEncountered = true;
       parseStructuralElement();
       break;
     default:
